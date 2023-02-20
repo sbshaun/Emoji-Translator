@@ -1,94 +1,72 @@
-import express, { Request, Response } from 'express';
-import axios from 'axios';
+import { Request, Response } from 'express';
+import cors from 'cors';
+import prompts from './prompts';
+require('dotenv').config();
 
+const express = require('express');
 const app = express();
-
-// Parse JSON
 app.use(express.json());
 
-// Enable CORS
-app.use((req, res, next) => {
-	res.header('Access-Control-Allow-Origin', '*');
-	res.header(
-		'Access-Control-Allow-Headers',
-		'Origin, X-Requested-With, Content-Type, Accept'
-	);
-	next();
-});
+const port = process.env.PORT;
+const email = process.env.EMAIL;
+const password = process.env.PASSWORD;
 
-// Get the email and password from environment variables
-const EMAIL = process.env.EMAIL;
-const PASSWORD = process.env.PASSWORD;
-
-// Customized prompts
-const ENGLISH_TO_EMOJIS_PROMPT = 'abc';
+let whitelist = ['http://localhost:3000' || port];
+app.use(
+	cors({
+		origin: function (origin, callback) {
+			if ((process.env.PROD as string) !== 'true') {
+				callback(null, true); // allow requests from all origins in dev mode
+			} else if (whitelist.indexOf(origin!) !== -1) {
+				callback(null, true);
+			} else {
+				callback(new Error('Not allowed by CORS'));
+			}
+		},
+		credentials: true,
+		methods: ['GET', 'POST', 'DELETE', 'PUT'],
+	})
+);
 
 // Translate function
 async function translate(req: Request, res: Response) {
 	try {
-		const user_input = req.body.user_input;
-		const method = req.body.method || 'english_to_emoji';
+		const userInput = req.body.userInput;
+		const method =
+			req.body.method in prompts ? req.body.method : 'englishToEmojis';
+		let prompt = prompts[method];
 
-		if (!user_input) {
+		if (!userInput) {
 			return res
 				.status(400)
-				.json({ message: 'Bad Request: user_input parameter is missing' });
+				.json({ message: 'Bad Request: userInput parameter is missing' });
 		}
 
-		// Default from English to emojis
-		let prompt = ENGLISH_TO_EMOJIS_PROMPT;
-		if (method.toLowerCase() === 'emoji_to_english') {
-			prompt = '';
-		}
+		// TODO-1 BEIGN: check input is safe && valid
+		// code
+		// code
+		// code
+		// TODO-1 END;
 
-		// Get the conversation ID
-		const session_resp = await axios.post(
-			'https://api.openai.com/v1/conversations',
-			{
-				prompt: 'hello',
-				temperature: 0.7,
-				max_tokens: 1,
-			},
-			{
-				auth: {
-					username: EMAIL,
-					password: PASSWORD,
-				},
-			}
-		);
-		const conversation_id = session_resp.data.conversation_id;
+		// TODO-2 BEGIN: feed prompt into chatGPT, get back output
+		// code
+		// code
+		// code
+		// TODO-2 END;
 
-		// Send user input to OpenAI API for translation
-		const resp = await axios.post(
-			'https://api.openai.com/v1/completions',
-			{
-				prompt: `${prompt} ${user_input}`,
-				temperature: 0.7,
-				max_tokens: 1024,
-				n: 1,
-				stop: '.',
-			},
-			{
-				auth: {
-					username: EMAIL,
-					password: PASSWORD,
-				},
-			}
-		);
-
-		// Return the translated message
-		return res.json({ message: resp.data.choices[0].text.trim() });
+		return res.json({ message: 'This should send the output' });
 	} catch (error) {
 		console.error(error);
 		return res.status(500).json({ message: 'Internal Server Error' });
 	}
 }
 
-// Route to handle translation requests
+app.get('/', (req: Request, res: Response) => {
+	res.send(`Your made a GET request to "localhost:${port}/"`);
+});
+
 app.post('/translate', translate);
 
-const port = process.env.PORT || 4000;
-
 app.listen(port, () => {
-	console.log(`Server is running on port ${port}`);
+	console.log(`Server listening on port ${port}`);
 });
