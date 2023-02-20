@@ -9,14 +9,14 @@ async function handleTranslateClick(inputText, translationMethod) {
       },
       referrerPolicy: 'no-referrer', // no-referrer, *client
       body: JSON.stringify({
-        user_input: inputText,
+        userInput: inputText,
         method: translationMethod,
       }),
     });
     const result = await response.json();
     return result['message'];
   } catch (error) {
-    alert(error);
+    console.log(`translate.js file: ${error}`);
   }
 }
 export default handleTranslateClick;

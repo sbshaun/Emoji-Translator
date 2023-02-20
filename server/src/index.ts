@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import cors from 'cors';
-import prompts from './prompts';
+import { translate } from '../route_handlers/translateHandler';
 require('dotenv').config();
 
 const express = require('express');
@@ -28,39 +28,7 @@ app.use(
 	})
 );
 
-// Translate function
-async function translate(req: Request, res: Response) {
-	try {
-		const userInput = req.body.userInput;
-		const method =
-			req.body.method in prompts ? req.body.method : 'englishToEmojis';
-		let prompt = prompts[method];
-
-		if (!userInput) {
-			return res
-				.status(400)
-				.json({ message: 'Bad Request: userInput parameter is missing' });
-		}
-
-		// TODO-1 BEIGN: check input is safe && valid
-		// code
-		// code
-		// code
-		// TODO-1 END;
-
-		// TODO-2 BEGIN: feed prompt into chatGPT, get back output
-		// code
-		// code
-		// code
-		// TODO-2 END;
-
-		return res.json({ message: 'This should send the output' });
-	} catch (error) {
-		console.error(error);
-		return res.status(500).json({ message: 'Internal Server Error' });
-	}
-}
-
+// set up routes and route handler functions
 app.get('/', (req: Request, res: Response) => {
 	res.send(`Your made a GET request to "localhost:${port}/"`);
 });
