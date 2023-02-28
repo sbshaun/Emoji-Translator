@@ -1,11 +1,27 @@
 import React from 'react';
-import googleSignIn from './Firebase';
+import { signInWithPopup } from 'firebase/auth';
+import { auth, provider } from './Firebase';
 import styles from '../styles/Login.module.scss';
 
 const Login = ({ setUser }) => {
   const handleSignIn = async () => {
-    const userCredential = await googleSignIn();
-    setUser(userCredential.user);
+    signInWithPopup(auth, provider)
+      .then(userCredential => {
+        // The signed-in user info
+        const user = userCredential.user;
+        console.log('Signed in user:', user);
+
+        // set user
+        setUser(user);
+
+        // Additional user info (if available)
+        const additionalUserInfo = userCredential.additionalUserInfo;
+        console.log('Additional user info:', additionalUserInfo);
+      })
+      .catch(error => {
+        // Handle sign-in errors
+        console.error('Sign-in error:', error);
+      });
   };
 
   return (

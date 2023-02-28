@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from '../styles/FrontPage.module.scss';
 import {
   Button,
@@ -22,16 +22,19 @@ const FrontPage = () => {
   const [isOutputCopied, setIsOutputCopied] = useState(false);
   const [translationMethod, setTranslationMethod] =
     useState('english_to_emoji');
-  const [user, setUser] = useState(null);
+  const [userAuth, setUserAuth] = useState(null);
 
   const auth = getAuth();
-  onAuthStateChanged(auth, user => {
-    if (user) {
-      setUser(user);
-    } else {
-      setUser(null);
-    }
-  });
+
+  useEffect(() => {
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        setUserAuth(user);
+      } else {
+        setUserAuth(null);
+      }
+    });
+  }, [auth]);
 
   const handleTranslateClick = async () => {
     const result = await handleTranslateClickHelper(
@@ -49,8 +52,8 @@ const FrontPage = () => {
 
   return (
     <div className={styles.frontPage}>
-      {user === null ? (
-        <Login setUser={setUser} />
+      {userAuth === null ? (
+        <Login setUser={setUserAuth} />
       ) : (
         <Box minW="40%" minH="80%" mr="16">
           <VStack minW="100%" minH="90%">
