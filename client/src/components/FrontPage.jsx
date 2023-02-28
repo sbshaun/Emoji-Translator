@@ -11,6 +11,7 @@ import {
   Box,
   Center,
   Select,
+  Spinner,
 } from '@chakra-ui/react';
 import handleTranslateClickHelper from '../helpAPI/translate';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -23,6 +24,7 @@ const FrontPage = () => {
   const [translationMethod, setTranslationMethod] =
     useState('english_to_emoji');
   const [userAuth, setUserAuth] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const auth = getAuth();
 
@@ -37,12 +39,14 @@ const FrontPage = () => {
   }, [auth]);
 
   const handleTranslateClick = async () => {
+    setIsLoading(true);
     const result = await handleTranslateClickHelper(
       inputText,
       translationMethod
     );
     setOutputText(result);
     setIsOutputCopied(false);
+    setIsLoading(false);
   };
 
   const handleCopyClick = () => {
@@ -74,7 +78,7 @@ const FrontPage = () => {
                 borderRadius: '15px',
                 opacity: 0.7,
               }}
-              style={{ userSelect: 'none' }}
+              style={{ userSelect: 'none', marginBottom: '11px' }}
             >
               Emojiers
             </Heading>
@@ -88,22 +92,31 @@ const FrontPage = () => {
               onChange={event => {
                 setInputText(event.target.value);
               }}
-              minH="28"
+              minH={outputText ? '28' : 'sm'}
             />
             <Spacer flex={0.5} />
-            <Textarea
-              className={styles.output}
-              placeholder="Output"
-              value={outputText}
-              onChange={event => {
-                setOutputText(event.target.value);
-              }}
-              minH="64"
-              maxH="2xs"
-              readOnly={true}
-              onClick={handleCopyClick}
-              _hover={{ cursor: 'pointer' }}
-            />
+
+            {isLoading ? (
+              <Center>
+                <Spinner mt="2" color="gray.500" size="lg" />
+              </Center>
+            ) : outputText === '' ? (
+              <div></div>
+            ) : (
+              <Textarea
+                className={styles.output}
+                placeholder="Output"
+                value={outputText}
+                onChange={event => {
+                  setOutputText(event.target.value);
+                }}
+                minH="64"
+                maxH="2xs"
+                readOnly={true}
+                onClick={handleCopyClick}
+                _hover={{ cursor: 'pointer' }}
+              />
+            )}
             <Spacer flex={0} />
             <Text
               position="sticky"
@@ -117,7 +130,7 @@ const FrontPage = () => {
           </VStack>
 
           <Center>
-            <HStack className={styles.buttonContainer} ml="3">
+            <HStack className={styles.buttonContainer} ml="1">
               <Button
                 colorScheme="red"
                 minW="90px"
