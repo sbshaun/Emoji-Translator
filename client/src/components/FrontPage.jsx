@@ -59,90 +59,80 @@ const FrontPage = () => {
       {userAuth === null ? (
         <Login setUser={setUserAuth} />
       ) : (
-        <Box minW="40%" minH="80%" mr="16">
-          <VStack minW="100%" minH="90%">
-            <Heading
-              fontSize="3.5em"
-              fontFamily="'Noto+Sans+Bamum', sans-serif"
-              position="relative"
-              display="inline-block"
-              _after={{
-                content: "''",
-                position: 'absolute',
-                bottom: '-10px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '50%',
-                height: '5px',
-                background: 'linear-gradient(to right, #ffc700, #ffdf00)',
-                borderRadius: '15px',
-                opacity: 0.7,
-              }}
-              style={{ userSelect: 'none', marginBottom: '11px' }}
-            >
-              Emojiers
-            </Heading>
-            <Spacer flex={1} />
-            <Textarea
-              className={styles.inputBox}
-              type="text"
-              name="input"
-              placeholder="Input Box"
-              value={inputText}
-              onChange={event => {
-                setInputText(event.target.value);
-              }}
-              minH={outputText ? '28' : 'sm'}
-            />
-            <Spacer flex={0.5} />
-
-            {isLoading ? (
-              <Center>
-                <Spinner mt="2" color="gray.500" size="lg" />
-              </Center>
-            ) : outputText === '' ? (
-              <div></div>
-            ) : (
-              <Textarea
-                className={styles.output}
-                placeholder="Output"
-                value={outputText}
-                onChange={event => {
-                  setOutputText(event.target.value);
-                }}
-                minH="64"
-                maxH="2xs"
-                readOnly={true}
-                onClick={handleCopyClick}
-                _hover={{ cursor: 'pointer' }}
-              />
-            )}
-            <Spacer flex={0} />
-            <Text
-              position="sticky"
-              fontWeight="bold"
-              color="gray.500"
-              _hover={{ cursor: 'pointer' }}
-              onClick={handleCopyClick}
-            >
-              {isOutputCopied ? 'Copied' : 'Click to Copy'}
-            </Text>
-          </VStack>
-
+        <Box minW="50%">
           <Center>
-            <HStack className={styles.buttonContainer} ml="1">
-              <Button
-                colorScheme="red"
-                minW="90px"
-                onClick={() => {
-                  setInputText('');
-                  setOutputText('');
-                  setIsOutputCopied(false);
+            <VStack>
+              <Heading
+                fontSize="3.5em"
+                fontFamily="'Noto+Sans+Bamum', sans-serif"
+                position="relative"
+                display="inline-block"
+                _after={{
+                  content: "''",
+                  position: 'absolute',
+                  bottom: '-10px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  width: '50%',
+                  height: '5px',
+                  background: 'linear-gradient(to right, #ffc700, #ffdf00)',
+                  borderRadius: '15px',
+                  opacity: 0.7,
                 }}
+                style={{ userSelect: 'none', marginBottom: '11px' }}
               >
-                Clear
-              </Button>
-              <Spacer />
+                Emojiers
+              </Heading>
+              <Spacer flex={1} />
+              <Textarea
+                className={styles.inputBox}
+                type="text"
+                name="input"
+                placeholder="Input Box"
+                value={inputText}
+                onChange={event => {
+                  setInputText(event.target.value);
+                }}
+                minH={outputText ? '28' : 'xs'}
+              />
+              <Spacer flex={0.5} />
+
+              {isLoading ? (
+                <Center>
+                  <Spinner mt="2" color="gray.500" size="lg" />
+                </Center>
+              ) : outputText === '' ? (
+                <div></div>
+              ) : (
+                <Textarea
+                  className={styles.output}
+                  placeholder="Output"
+                  value={outputText}
+                  onChange={event => {
+                    setOutputText(event.target.value);
+                  }}
+                  minH="64"
+                  maxH="2xs"
+                  readOnly={true}
+                  onClick={handleCopyClick}
+                  _hover={{ cursor: 'pointer' }}
+                />
+              )}
+              <Spacer flex={0} />
+              <Text
+                position="sticky"
+                fontWeight="bold"
+                color="gray.500"
+                _hover={{ cursor: 'pointer' }}
+                onClick={handleCopyClick}
+              >
+                {isOutputCopied ? 'Copied' : ''}
+              </Text>
+            </VStack>
+          </Center>
+
+          <Center mt="5">
+            <VStack>
               <Select
                 className={styles.selectBox}
                 placeholder="Select translation method"
@@ -154,15 +144,29 @@ const FrontPage = () => {
                 <option value="english_to_emoji">English to Emoji</option>
                 <option value="emoji_to_english">Emoji to English</option>
               </Select>
-              <Spacer />
-              <Button
-                colorScheme="green"
-                minW="50px"
-                onClick={handleTranslateClick}
-              >
-                Translate
-              </Button>
-            </HStack>
+              <HStack className={styles.buttonContainer} w="100%">
+                <Button
+                  colorScheme="red"
+                  minW="7rem"
+                  onClick={() => {
+                    setInputText('');
+                    setOutputText('');
+                    setIsOutputCopied(false);
+                  }}
+                >
+                  Clear
+                </Button>
+                <Spacer />
+
+                <Button
+                  colorScheme="green"
+                  minW="7rem"
+                  onClick={handleTranslateClick}
+                >
+                  Translate
+                </Button>
+              </HStack>
+            </VStack>
           </Center>
         </Box>
       )}
