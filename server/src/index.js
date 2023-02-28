@@ -7,7 +7,12 @@ const app = express();
 require('dotenv').config();
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+// allow requests only from example.com
+const corsOptions = {
+	origin: process.env.ALLOWED_ORIGIN,
+};
+
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 connect()
