@@ -4,6 +4,7 @@ import styles from '../styles/Login.module.scss';
 
 const Login = ({ setUser }) => {
   const handleSignIn = async () => {
+    console.log(process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID);
     const userCredential = await googleSignIn();
     setUser(userCredential.user);
   };

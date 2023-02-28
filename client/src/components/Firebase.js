@@ -14,7 +14,7 @@ const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
-console.log(process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID);
+
 const googleSignIn = () =>
   signInWithPopup(auth, provider)
     .then(result => {})
