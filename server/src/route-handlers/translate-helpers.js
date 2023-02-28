@@ -1,7 +1,6 @@
-import { Request, Response } from 'express';
-import prompts from '../utils/prompts';
+const prompts = require('../../utils/prompts');
 
-export const translate = async (req: Request, res: Response) => {
+exports.translate = async (req, res) => {
 	try {
 		// Extract request parameters
 		const { userInput, method } = req.body;
@@ -29,10 +28,11 @@ export const translate = async (req: Request, res: Response) => {
 				'😌 to create interactive 🤝 UIs. Design 🎨 ' +
 				'simple views 👀 for each state 📊 in your application 📱,' +
 				' and React will efficiently 💪 update 🔃 and render 🎬 just ' +
-				'the right 🔍 components ⚙️ when your data 📈 changes 🔄.',
+				'the right 🔍 components ⚙️ when your data 📈 changes 🔄.' +
+				userInput,
 		});
 	} catch (error) {
-		console.error(`translateHandler.ts error: ${error}`);
+		console.error(`translateHandler.js error: ${error}`);
 		return res.status(500).json({ message: 'Internal Server Error' });
 	}
 };

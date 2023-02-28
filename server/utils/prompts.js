@@ -1,4 +1,4 @@
-export const prompts: { [key: string]: string } = {
+const prompts = {
 	englishToEmojis:
 		'I want you to act as an emoji translator, ' +
 		'I will provide you sentence that does not contain emojis, ' +
@@ -22,4 +22,4 @@ export const prompts: { [key: string]: string } = {
 		'Do not provide explanations or anything else other than your modified text. Here is my first request: ',
 };
 
-export default prompts;
+module.exports = prompts;
