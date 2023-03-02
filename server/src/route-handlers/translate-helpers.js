@@ -34,6 +34,10 @@ exports.translate = async (req, res) => {
 			});
 		}
 
+		if (userInput === 'wakeup') {
+			res.status(200).json({ result: 'good' });
+		}
+
 		// Set default prompt if method not found in prompts
 		const prompt = generatePrompt(method, userInput);
 

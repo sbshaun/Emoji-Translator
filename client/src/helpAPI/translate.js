@@ -19,4 +19,10 @@ async function handleTranslateClick(inputText, translationMethod) {
     console.log(`translate.js file: ${error}`);
   }
 }
+
+console.log('waking up server...');
+handleTranslateClick('wakeup', 'abc').then(() => {
+  console.log('server running.');
+});
+
 export default handleTranslateClick;

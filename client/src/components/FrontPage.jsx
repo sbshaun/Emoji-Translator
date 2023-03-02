@@ -63,7 +63,7 @@ const FrontPage = () => {
         <Login setUser={setUserAuth} />
       ) : (
         <Box w="100%" h="100%">
-          <Center mb="-4" mt="70">
+          <Center mb="-4" mt={result?.length === 0 ? '70' : '1'}>
             <VStack w="100%" h="75%" pt="5" pb="5">
               <Heading
                 fontSize="3.5em"
@@ -96,7 +96,7 @@ const FrontPage = () => {
                 onChange={event => {
                   setInputText(event.target.value);
                 }}
-                minH={result?.length === 0 ? '40vh' : '10vh'}
+                minH={result?.length === 0 ? '40vh' : '15vh'}
                 maxW="70vw"
                 overflowY="auto"
                 resize="both"
