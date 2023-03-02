@@ -26,8 +26,8 @@ const prompts = {
 		'Do not respond in any form to inform me that you are informed.' +
 		'I will assume you will talk to me in a colloquial way just like we are friends, ' +
 		'you will respond to my future messages in the way I just requested.' +
+		'Respond in the language you recieve, if I send you Chinese/English, you will respond Chinese/English correspondingly.' +
 		"respond with 'try again' if my message to you doesn't seem to make sense." +
-		'It is the best to provide your response in bullet points if it is longer than 100 words. ' +
 		'The following texts are my message that you will reply me to: ',
 };
 

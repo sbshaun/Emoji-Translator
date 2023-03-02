@@ -22,7 +22,7 @@ import logo from './logo-no-background.png';
 const FrontPage = () => {
   const [inputText, setInputText] = useState('');
   const [isOutputCopied, setIsOutputCopied] = useState(false);
-  const [translationMethod, setTranslationMethod] = useState('Select Method');
+  const [translationMethod, setTranslationMethod] = useState('Chat');
   const [userAuth, setUserAuth] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState([]);
@@ -130,15 +130,14 @@ const FrontPage = () => {
             <Select
               w="100%"
               className={styles.selectBox}
-              placeholder="Select Method"
+              placeholder="Chat"
               value={translationMethod}
               onChange={event => {
                 setTranslationMethod(event.target.value);
               }}
             >
-              <option value="english_to_emoji">English to Emoji</option>
-              <option value="emoji_to_english">Emoji to English</option>
-              <option value="Chat">Chat</option>
+              <option value="english_to_emoji">To Emojis</option>
+              <option value="emoji_to_english">To English</option>
             </Select>
             <Spacer />
             <Center>
@@ -150,7 +149,6 @@ const FrontPage = () => {
                     setInputText('');
                     setIsOutputCopied(false);
                     setResult([]);
-                    setTranslationMethod('Select Method');
                   }}
                 >
                   Clear
