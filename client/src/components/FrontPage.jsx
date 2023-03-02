@@ -92,7 +92,7 @@ const FrontPage = () => {
               className={styles.inputBox}
               type="text"
               name="input"
-              placeholder="Input Box"
+              placeholder="Prefix SECRET_NUMBER to access."
               value={inputText}
               onChange={event => {
                 setInputText(event.target.value);
