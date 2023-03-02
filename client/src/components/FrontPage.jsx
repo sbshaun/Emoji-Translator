@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from '../styles/FrontPage.module.scss';
 import {
   Button,
-  Heading,
+  Image,
   VStack,
   HStack,
   Spacer,
@@ -17,6 +17,7 @@ import handleTranslateClickHelper from '../helpAPI/translate';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import Login from './Login';
 import { getTextAreaArray } from './ContentBox';
+import logo from './logo-no-background.png';
 
 const FrontPage = () => {
   const [inputText, setInputText] = useState('');
@@ -65,7 +66,7 @@ const FrontPage = () => {
         <Box w="100%" h="100%">
           <Center mb="3" mt={result?.length === 0 ? '50' : '1'}>
             <VStack w="100%" h="75%" pt="5" pb="5">
-              <Heading
+              {/* <Heading
                 fontSize="3.5em"
                 fontFamily="'Noto+Sans+Bamum', sans-serif"
                 position="relative"
@@ -85,7 +86,8 @@ const FrontPage = () => {
                 style={{ userSelect: 'none', marginBottom: '11px' }}
               >
                 Emojiers
-              </Heading>
+              </Heading> */}
+              <Image src={logo} alt="icon" h="50" />
               <Spacer minH="1" />
               <Textarea
                 className={styles.inputBox}
