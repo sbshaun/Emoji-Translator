@@ -161,7 +161,7 @@ const FrontPage = () => {
                   minW="7rem"
                   onClick={handleTranslateClick}
                 >
-                  Translate
+                  Confirm
                 </Button>
               </HStack>
             </Center>
