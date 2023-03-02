@@ -8,7 +8,7 @@ export function getTextArea(text, setIsOutputCopied) {
       key={text.trim()}
       type="text"
       overflowY="auto"
-      minH="40vh"
+      minH="35vh"
       resize="both"
       onClick={() => {
         navigator.clipboard.writeText(text.trim());

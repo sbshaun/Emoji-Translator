@@ -63,7 +63,7 @@ const FrontPage = () => {
         <Login setUser={setUserAuth} />
       ) : (
         <Box w="100%" h="100%">
-          <Center mb="-4" mt={result?.length === 0 ? '70' : '1'}>
+          <Center mb="3" mt={result?.length === 0 ? '50' : '1'}>
             <VStack w="100%" h="75%" pt="5" pb="5">
               <Heading
                 fontSize="3.5em"
@@ -124,7 +124,7 @@ const FrontPage = () => {
               </Text>
             </VStack>
           </Center>
-          <Center>
+          <Center mt="-5">
             <VStack>
               <Select
                 w="100%"
