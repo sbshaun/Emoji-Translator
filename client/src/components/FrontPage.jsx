@@ -41,6 +41,17 @@ const FrontPage = () => {
 
   const handleTranslateClick = async () => {
     setIsLoading(true);
+    if (inputText.trim().length === 0) {
+      alert('Empty input.');
+      setIsLoading(false);
+      return;
+    }
+    if (translationMethod === 'Select Method') {
+      alert('Select method.');
+      setIsLoading(false);
+      return;
+    }
+
     const result = await handleTranslateClickHelper(
       inputText,
       translationMethod
