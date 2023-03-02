@@ -45,7 +45,9 @@ const FrontPage = () => {
       inputText,
       translationMethod
     );
-    setResult(result);
+    if (result) {
+      setResult(result);
+    }
     setIsOutputCopied(false);
     setIsLoading(false);
   };
@@ -94,7 +96,7 @@ const FrontPage = () => {
                 onChange={event => {
                   setInputText(event.target.value);
                 }}
-                minH={result.length === 0 ? '40vh' : '10vh'}
+                minH={result?.length === 0 ? '40vh' : '10vh'}
                 maxW="70vw"
                 overflowY="auto"
                 resize="both"
@@ -104,11 +106,11 @@ const FrontPage = () => {
                 <Center>
                   <Spinner mt="2" color="gray.500" size="lg" />
                 </Center>
-              ) : result.length === 0 ? (
+              ) : result?.length === 0 ? (
                 <div></div>
               ) : (
                 <VStack w="70vw" maxH="50vh">
-                  {getTextAreaArray(result, setIsOutputCopied)}
+                  {result && getTextAreaArray(result, setIsOutputCopied)}
                 </VStack>
               )}
 
@@ -122,7 +124,6 @@ const FrontPage = () => {
               </Text>
             </VStack>
           </Center>
-          {/* {result.length === 0 && <Spacer h="10" />} */}
           <Center>
             <VStack>
               <Select
