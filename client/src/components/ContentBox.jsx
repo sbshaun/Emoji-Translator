@@ -22,5 +22,8 @@ export function getTextAreaArray(messages, setIsOutputCopied) {
   // return messages.map(message => {
   //   return <Box>{getTextArea(message.message.content, setIsOutputCopied)}</Box>;
   // });
+  if (!messages[0]) {
+    return getTextArea(messages, setIsOutputCopied);
+  }
   return getTextArea(messages[0].message.content, setIsOutputCopied);
 }

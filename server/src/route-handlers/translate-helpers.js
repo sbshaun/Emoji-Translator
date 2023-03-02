@@ -13,8 +13,9 @@ function generatePrompt(promptMethod, userInput) {
 
 	// TODO-2 BEGIN: Feed prompt into chatGPT, get back output
 	// code...
-	const prompt = prompts[promptMethod] || prompts['englishToEmojis'];
-	return `${prompt} ${userInput}`;
+
+	const prompt = prompts[promptMethod] || prompts['chat'];
+	return `${prompt} "${userInput}"`;
 }
 
 exports.translate = async (req, res) => {
@@ -35,11 +36,32 @@ exports.translate = async (req, res) => {
 		}
 
 		if (userInput === 'wakeup') {
-			res.status(200).json({ result: 'good' });
+			return res.status(200).json({ result: 'good' });
+		}
+
+		// Check if userInput starts with "111"
+		if (!userInput.startsWith('1')) {
+			return res.status(400).json({
+				error: {
+					message: 'Bad Request: userInput must start with "SECRET_NUMBER"',
+				},
+			});
+		}
+
+		// Remove prefix "111" from userInput
+		const userInputWithoutPrefix = userInput.replace(/^1+/, '');
+
+		// Check if userInput is provided
+		if (!userInputWithoutPrefix) {
+			return res.status(400).json({
+				error: {
+					message: 'Bad Request: no valid input parameter is missing',
+				},
+			});
 		}
 
 		// Set default prompt if method not found in prompts
-		const prompt = generatePrompt(method, userInput);
+		const prompt = generatePrompt(method, userInputWithoutPrefix);
 
 		if (!configuration.apiKey) {
 			res.status(500).json({

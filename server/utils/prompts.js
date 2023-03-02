@@ -20,6 +20,15 @@ const prompts = {
 		'You will provide your response in the form of plain English text after you replace the emojis with English words or sentences. ' +
 		'You will rewrite the text in a way that imitates the original tone of the text. ' +
 		'Do not provide explanations or anything else other than your modified text. Here is my first request: ',
+	chat:
+		'I want you to talk to me in a casual way. Use colloquial language that is easy to understand. ' +
+		'Keep your response short (within 1000 tokens). Do not repeat my request.' +
+		'Do not respond in any form to inform me that you are informed.' +
+		'I will assume you will talk to me in a colloquial way just like we are friends, ' +
+		'you will respond to my future messages in the way I just requested.' +
+		"respond with 'try again' if my message to you doesn't seem to make sense." +
+		'It is the best to provide your response in bullet points if it is longer than 100 words. ' +
+		'The following texts are my message that you will reply me to: ',
 };
 
 module.exports = prompts;
