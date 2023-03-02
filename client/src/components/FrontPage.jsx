@@ -16,15 +16,16 @@ import {
 import handleTranslateClickHelper from '../helpAPI/translate';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import Login from './Login';
+import { getTextAreaArray } from './ContentBox';
 
 const FrontPage = () => {
   const [inputText, setInputText] = useState('');
-  const [outputText, setOutputText] = useState('');
   const [isOutputCopied, setIsOutputCopied] = useState(false);
   const [translationMethod, setTranslationMethod] =
     useState('english_to_emoji');
   const [userAuth, setUserAuth] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [result, setResult] = useState([]);
 
   const auth = getAuth();
 
@@ -44,24 +45,24 @@ const FrontPage = () => {
       inputText,
       translationMethod
     );
-    setOutputText(result);
+    setResult(result);
     setIsOutputCopied(false);
     setIsLoading(false);
   };
 
-  const handleCopyClick = () => {
-    navigator.clipboard.writeText(outputText);
-    setIsOutputCopied(true);
-  };
-
   return (
-    <div className={styles.frontPage}>
+    <Center
+      className={styles.frontPage}
+      minH="100%"
+      minW="100%"
+      justifyContent="center"
+    >
       {userAuth === null ? (
         <Login setUser={setUserAuth} />
       ) : (
-        <Box minW="50%">
-          <Center>
-            <VStack>
+        <Box w="100%" h="100%">
+          <Center mb="-4" mt="70">
+            <VStack w="100%" h="75%" pt="5" pb="5">
               <Heading
                 fontSize="3.5em"
                 fontFamily="'Noto+Sans+Bamum', sans-serif"
@@ -83,7 +84,7 @@ const FrontPage = () => {
               >
                 Emojiers
               </Heading>
-              <Spacer flex={1} />
+              <Spacer minH="1" />
               <Textarea
                 className={styles.inputBox}
                 type="text"
@@ -93,47 +94,39 @@ const FrontPage = () => {
                 onChange={event => {
                   setInputText(event.target.value);
                 }}
-                minH={outputText ? '28' : 'xs'}
+                minH={result.length === 0 ? '40vh' : '10vh'}
+                maxW="70vw"
+                overflowY="auto"
+                resize="both"
               />
-              <Spacer flex={0.5} />
-
+              <Spacer minH="1" />
               {isLoading ? (
                 <Center>
                   <Spinner mt="2" color="gray.500" size="lg" />
                 </Center>
-              ) : outputText === '' ? (
+              ) : result.length === 0 ? (
                 <div></div>
               ) : (
-                <Textarea
-                  className={styles.output}
-                  placeholder="Output"
-                  value={outputText}
-                  onChange={event => {
-                    setOutputText(event.target.value);
-                  }}
-                  minH="64"
-                  maxH="2xs"
-                  readOnly={true}
-                  onClick={handleCopyClick}
-                  _hover={{ cursor: 'pointer' }}
-                />
+                <VStack w="70vw" maxH="50vh">
+                  {getTextAreaArray(result, setIsOutputCopied)}
+                </VStack>
               )}
-              <Spacer flex={0} />
+
               <Text
                 position="sticky"
                 fontWeight="bold"
                 color="gray.500"
                 _hover={{ cursor: 'pointer' }}
-                onClick={handleCopyClick}
               >
                 {isOutputCopied ? 'Copied' : ''}
               </Text>
             </VStack>
           </Center>
-
-          <Center mt="5">
+          {/* {result.length === 0 && <Spacer h="10" />} */}
+          <Center>
             <VStack>
               <Select
+                w="100%"
                 className={styles.selectBox}
                 placeholder="Select translation method"
                 value={translationMethod}
@@ -144,33 +137,37 @@ const FrontPage = () => {
                 <option value="english_to_emoji">English to Emoji</option>
                 <option value="emoji_to_english">Emoji to English</option>
               </Select>
-              <HStack className={styles.buttonContainer} w="100%">
-                <Button
-                  colorScheme="red"
-                  minW="7rem"
-                  onClick={() => {
-                    setInputText('');
-                    setOutputText('');
-                    setIsOutputCopied(false);
-                  }}
-                >
-                  Clear
-                </Button>
-                <Spacer />
+              <Spacer />
+              <Center>
+                <HStack className={styles.buttonContainer} w="100%">
+                  <Button
+                    colorScheme="red"
+                    minW="7rem"
+                    onClick={() => {
+                      setInputText('');
+                      setIsOutputCopied(false);
+                      setResult([]);
+                    }}
+                  >
+                    Clear
+                  </Button>
 
-                <Button
-                  colorScheme="green"
-                  minW="7rem"
-                  onClick={handleTranslateClick}
-                >
-                  Translate
-                </Button>
-              </HStack>
+                  <Spacer w="16" />
+
+                  <Button
+                    colorScheme="green"
+                    minW="7rem"
+                    onClick={handleTranslateClick}
+                  >
+                    Translate
+                  </Button>
+                </HStack>
+              </Center>
             </VStack>
           </Center>
         </Box>
       )}
-    </div>
+    </Center>
   );
 };
 

@@ -1,38 +1,77 @@
 const prompts = require('../../utils/prompts');
+const { Configuration, OpenAIApi } = require('openai');
+
+const configuration = new Configuration({
+	apiKey: process.env.OPENAI_API_KEY,
+});
+
+const openai = new OpenAIApi(configuration);
+
+function generatePrompt(promptMethod, userInput) {
+	// TODO-1 BEGIN: Validate the userInput for safety and validity
+	// code...
+
+	// TODO-2 BEGIN: Feed prompt into chatGPT, get back output
+	// code...
+	const prompt = prompts[promptMethod] || prompts['englishToEmojis'];
+	return `${prompt} ${userInput}`;
+}
 
 exports.translate = async (req, res) => {
 	try {
 		// Extract request parameters
 		const { userInput, method } = req.body;
 
-		// Set default prompt if method not found in prompts
-		const prompt = prompts[method] || prompts['englishToEmojis'];
+		// TODO-1: Validate the userInput for safety and validity
+		// code...
 
 		// Check if userInput is provided
 		if (!userInput) {
-			return res
-				.status(400)
-				.json({ message: 'Bad Request: userInput parameter is missing' });
+			return res.status(400).json({
+				error: {
+					message: 'Bad Request: userInput parameter is missing',
+				},
+			});
 		}
 
-		// TODO-1 BEGIN: Validate the userInput for safety and validity
-		// code...
+		// Set default prompt if method not found in prompts
+		const prompt = generatePrompt(method, userInput);
 
-		// TODO-2 BEGIN: Feed prompt into chatGPT, get back output
-		// code...
+		if (!configuration.apiKey) {
+			res.status(500).json({
+				error: {
+					message:
+						'OpenAI API key not configured, please follow instructions in README.md',
+				},
+			});
+			return;
+		}
 
-		// hardcoded sample output
-		return res.json({
-			message:
-				'sample output: React 🚀 makes it painless' +
-				'😌 to create interactive 🤝 UIs. Design 🎨 ' +
-				'simple views 👀 for each state 📊 in your application 📱,' +
-				' and React will efficiently 💪 update 🔃 and render 🎬 just ' +
-				'the right 🔍 components ⚙️ when your data 📈 changes 🔄.' +
-				userInput,
-		});
+		// Feed prompt into chatGPT, get back output
+		try {
+			const completion = await openai.createChatCompletion({
+				model: 'gpt-3.5-turbo',
+				messages: [{ role: 'user', content: prompt }],
+				n: 1,
+			});
+
+			res.status(200).json({ result: completion.data.choices });
+		} catch (error) {
+			// Consider adjusting the error handling logic for your use case
+			if (error.response) {
+				console.error(error.response.status, error.response.data);
+				res.status(error.response.status).json(error.response.data);
+			} else {
+				console.error(`Error with OpenAI API request: ${error.message}`);
+				res.status(500).json({
+					error: {
+						message: 'An error occurred during your request.',
+					},
+				});
+			}
+		}
 	} catch (error) {
-		console.error(`translateHandler.js error: ${error}`);
+		console.error(`translate-helper error: ${error}`);
 		return res.status(500).json({ message: 'Internal Server Error' });
 	}
 };

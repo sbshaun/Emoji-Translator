@@ -14,7 +14,7 @@ async function handleTranslateClick(inputText, translationMethod) {
       }),
     });
     const result = await response.json();
-    return result['message'];
+    return result['result'];
   } catch (error) {
     console.log(`translate.js file: ${error}`);
   }
