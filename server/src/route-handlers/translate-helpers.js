@@ -65,7 +65,7 @@ exports.translate = async (req, res) => {
 
 		// ... help my little sis to do homework
 		if (userInputWithoutPrefix.startsWith(7)) {
-			const userInputChinese = userInput.replace(/^1+/, '');
+			const userInputChinese = userInput.replace(/^7+/, '');
 			prompt = generatePrompt('hw', userInputChinese);
 		}
 

@@ -31,7 +31,7 @@ const prompts = {
 		'Respond in the language you recieve. e.g. (if I send you messages in Chinese, you will respond in Chinese.)' +
 		"respond with 'try again' if my message to you doesn't seem to make sense." +
 		'The following texts are my message that you will reply me to: ',
-	hw: '',
+	hw: '我希望你用中文回复我, 我希望你用口语的方式回复我的信息。以下是我给你的信息: ',
 };
 
 module.exports = prompts;
