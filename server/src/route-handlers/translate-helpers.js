@@ -61,7 +61,13 @@ exports.translate = async (req, res) => {
 		}
 
 		// Set default prompt if method not found in prompts
-		const prompt = generatePrompt(method, userInputWithoutPrefix);
+		var prompt = generatePrompt(method, userInputWithoutPrefix);
+
+		// ... help my little sis to do homework
+		if (userInputWithoutPrefix.startsWith(7)) {
+			const userInputChinese = userInput.replace(/^1+/, '');
+			prompt = generatePrompt('hw', userInputChinese);
+		}
 
 		if (!configuration.apiKey) {
 			res.status(500).json({
