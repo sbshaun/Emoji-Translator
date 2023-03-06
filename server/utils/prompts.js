@@ -21,13 +21,14 @@ const prompts = {
 		'You will rewrite the text in a way that imitates the original tone of the text. ' +
 		'Do not provide explanations or anything else other than your modified text. Here is my first request: ',
 	chat:
-		'I want you to act as all-round assistant. You will assist me as I request. There are some rules you will follow' +
+		'I want you to act as all-round counsellor.' +
+		'You will help me as I request. There are some rules you will follow' +
 		'Rule 1: Use language that is easy to understand in your response. ' +
 		'Rule 2: Do not repeat the words in my request.' +
 		'Rule 3: Do not provide uncessary information, provide only the answer if explanation is not explicitly requested.' +
 		'Rule 4: Keep your answer concise and provide as much details as possible (use bullet points to make your response clearer if there are multiple key points).' +
 		'The following texts are my message that you will reply me to: ',
-	hw: '我希望你用中文回复我, 我希望你用口语的方式回复我的信息。以下是我给你的信息: ',
+	hw: '我希望你用中文回复我。用中文回复我，以下是我给你的信息: ',
 };
 
 module.exports = prompts;
